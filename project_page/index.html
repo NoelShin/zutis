@@ -1,0 +1,627 @@
+<script src="https://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+
+<style type="text/css">
+	body {
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		font-weight:300;
+		font-size:18px;
+		margin-left: auto;
+		margin-right: auto;
+		width: 1100px;
+	}
+
+	h1 {
+		font-size:32px;
+		font-weight:300;
+	}
+
+	a:link,a:visited
+	{
+		color: #1367a7;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #208799;
+	}
+
+	td.dl-link {
+		height: 160px;
+		text-align: center;
+		font-size: 22px;
+	}
+
+	.layered-paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35), /* The third layer shadow */
+		15px 15px 0 0px #fff, /* The fourth layer */
+		15px 15px 1px 1px rgba(0,0,0,0.35), /* The fourth layer shadow */
+		20px 20px 0 0px #fff, /* The fifth layer */
+		20px 20px 1px 1px rgba(0,0,0,0.35), /* The fifth layer shadow */
+		25px 25px 0 0px #fff, /* The fifth layer */
+		25px 25px 1px 1px rgba(0,0,0,0.35); /* The fifth layer shadow */
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+	.paper-big { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35); /* The top layer shadow */
+
+		margin-left: 10px;
+		margin-right: 45px;
+	}
+
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		5px 5px 0 0px #fff, /* The second layer */
+		5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		10px 10px 0 0px #fff, /* The third layer */
+		10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+
+	.vert-cent {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	hr
+	{
+		border: 0;
+		height: 1px;
+		background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	}
+
+	.row_imgs {
+	  text-align:center;
+	}
+
+	.row_imgs img {
+		display:inline-block;
+    margin:5px 20px;
+    padding:5px;
+	}
+
+  .super-sub {
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+  }
+
+  .sup {
+    font-size: smaller;
+  }
+
+  .sub {
+    position: absolute;
+    bottom: -0.4em;
+    font-size: smaller;
+    left: 0;
+  }
+
+</style>
+
+<html>
+<head>
+	<title>Zero-shot Unsupervised Transfer Instance Segmentation</title>
+	<meta property="og:image" content="Path to my teaser.png"/> <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/ if you update and want to force Facebook to rescrape. -->
+	<meta property="og:title" content="ReCo: Retrieve and Co-segment for Zero-shot Transfer" />
+	<meta property="og:description" content="Paper description." />
+
+	<!-- Get from Google Analytics -->
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src=""></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-75863369-6');
+	</script>
+
+	<!--Enable LaTeX within html5-->
+
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+
+</head>
+
+<body>
+	<br>
+	<center>
+		<span style="font-size:32px">Zero-shot Unsupervised Transfer Instance Segmentation</span>
+		<table align=center width=600px>
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:18pt"><a href="https://www.robots.ox.ac.uk/~gyungin/">Gyungin Shin</a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:18pt"><a href="https://samuelalbanie.com">Samuel Albanie</a></span>
+						</center>
+					</td>
+					<td align=center width=100px>
+						<center>
+							<span style="font-size:18pt"><a href="https://weidixie.github.io">Weidi Xie</a></span>
+						</center>
+					</td>
+				</tr>
+			<table align=center width=250px>
+				<tr>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:18pt"><a href="https://arxiv.org/pdf/#.pdf">[Paper]</a></span>
+						</center>
+					</td>
+					<td align=center width=120px>
+						<center>
+							<span style="font-size:18pt"><a href="https://github.com/NoelShin/zutis">[GitHub]</a></span><br>
+						</center>
+					</td>
+				</tr>
+			</table>
+		</table>
+	</center>
+	</br>
+	<!--Teaser image-->
+	<table align=center width=600px>
+		<tr>
+			<td>
+  			<img style="width: 850px" src="./assets/teaser.png"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<br/>
+			</td>
+		</tr>
+		<!-- description for the teaser -->
+		<tr>
+			<td>
+					<div style="text-align: justify; width: 850px">
+            We propose ZUTIS, a framework for zero-shot unsupervised transfer instance segmentation.
+            The figure depicts instance segmentations made by ZUTIS on COCO-20K and VOC2012.
+            Without pixel-level annotation or access to the target distribution, ZUTIS acquires the ability to reliably segment instances within an image.
+					</div>
+			</td>
+		<tr>
+		</tr>
+	</table>
+
+	<hr>
+
+	<!--Abstract-->
+	<table align=center width=850px>
+		<center><h1>Abstract</h1></center>
+		<tr>
+			<td>
+				<div style="text-align: justify">
+          Segmentation is a core computer vision competency, with applications spanning a broad range of scientifically and economically valuable domains.
+          To date, however, the prohibitive cost of annotation has limited the deployment of flexible segmentation models.
+          In this work, we propose Zero-shot Unsupervised Transfer Instance Segmentation (ZUTIS),
+          a framework that aims to meet this challenge.
+          The key strengths of ZUTIS are:
+          (i) no requirement for instance-level or pixel-level annotations;
+          (ii) an ability of zero-shot transfer, i.e., no assumption on access to a target data distribution;
+          (iii) a unified framework for semantic and instance segmentations with solid performance on both tasks compared to state-of-the-art unsupervised methods.
+          While comparing to previous work,
+          we show ZUTIS achieves a gain of 2.2 mask AP on COCO-20K and 14.5 mIoU on ImageNet-S with 919 categories for instance and semantic segmentations, respectively.
+          Code will be made publicly available.
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<hr>
+
+	<!--Overview image of ReCo-->
+	<table align=center width=850px>
+		<center><h1>Overview</h1></center>
+		<tr>
+			<td>
+        <img style="width: 850px" src="./assets/overview.png"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<br>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div style="text-align: justify">
+          Given an image encoder and a text encoder from a language-image model (e.g., CLIP), ZUTIS learns to perform both semantic and instance segmentation.
+          (Top) image features for an image are fed to a feed-forward network (FFN) followed by a transformer decoder to produce mask proposals, which are used to make predictions for instance segmentation at inference (bottom right).
+          At the same time, the image features are projected into a text embedding space in which semantic predictions are made via a dot-product between the projected image features and frozen text features for a set of categories (bottom left).
+          For simplicity, the pseudo-mask generation step is omitted.
+          See the paper for details.
+				</div>
+			</td>
+		</tr>
+	</table>
+	<br>
+
+	<hr>
+
+
+	<table align=center width=850px>
+		<center><h1>Main results</h1></center>
+		<tr>
+			<td>
+        <table align=center width=500px>
+          <thead>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black"></td>
+          		</tr>
+              <tr>
+                  <th>model</th>
+                  <th style="text-align:center">backbone</th>
+                  <th>AP<sup>mk</sup></th>
+                  <th>AP<span class="super-sub"><sup class="sup">mk</sup>&nbsp;<sub class="sub">50</sub></span></th>
+                  <th>AP<span class="super-sub"><sup class="sup">mk</sup>&nbsp;<sub class="sub">75</sub></span></th>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+          </thead>
+          <tbody>
+              <tr>
+                 <td colspan="100%"><i>unsupervised methods w/o language-image pretraining</i></td>
+              </tr>
+              <tr>
+                  <td>DINO</td>
+                  <td style="text-align:center">ViT-S/16</td>
+                  <td style="text-align:center">0.7</td>
+                  <td style="text-align:center">2.0</td>
+                  <td style="text-align:center">0.4</td>
+              </tr>
+              <tr>
+                  <td>LOST</td>
+                  <td style="text-align:center">ViT-S/16</td>
+                  <td style="text-align:center">1.2</td>
+                  <td style="text-align:center">3.3</td>
+                  <td style="text-align:center">0.6</td>
+              </tr>
+              <tr>
+                  <td>MaskDistill</td>
+                  <td style="text-align:center">ViT-S/16</td>
+                  <td style="text-align:center">1.7</td>
+                  <td style="text-align:center">4.1</td>
+                  <td style="text-align:center">1.4</td>
+              </tr>
+              <tr>
+                  <td>MaskDistil$^\dagger$</td>
+                  <td style="text-align:center">RN50-C4</td>
+                  <td style="text-align:center">3.5</td>
+                  <td style="text-align:center">7.7</td>
+                  <td style="text-align:center">2.9</td>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+              <tr>
+                 <td colspan="100%"><i>unsupervised method w/ language-image pretraining</i></td>
+              </tr>
+              <tr>
+                  <td>MaskCLIP</td>
+                  <td style="text-align:center">ViT-B/32</td>
+                  <td style="text-align:center">0.3</td>
+                  <td style="text-align:center">0.8</td>
+                  <td style="text-align:center">0.2</td>
+              </tr>
+              <tr>
+                  <td>ZUTIS(Ours)</td>
+                  <td style="text-align:center">ViT-B/32</td>
+                  <td style="text-align:center">3.4</td>
+                  <td style="text-align:center">8.0</td>
+                  <td style="text-align:center">2.6</td>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px dashed black"></td>
+          		</tr>
+              <tr>
+                  <td>MaskCLIP</td>
+                  <td style="text-align:center">ViT-B/16</td>
+                  <td style="text-align:center">1.3</td>
+                  <td style="text-align:center">3.4</td>
+                  <td style="text-align:center">0.8</td>
+              </tr>
+              <tr>
+                  <td>ZUTIS (Ours)</td>
+                  <td style="text-align:center">ViT-B/16</td>
+                  <td style="text-align:center"><b>5.7</b></td>
+                  <td style="text-align:center"><b>11.0</b></td>
+                  <td style="text-align:center"><b>5.4</b></td>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+          </tbody>
+        </table>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div style="text-align: justify">
+          Comparison to previous unsupervised instance segmentation methods on COCO-20K. $^\dagger$Mask R-CNN trained with
+          pseudo-masks from MaskDistill. The numbers for the methods
+          without language-image pretraining are quoted from MaskDistil.
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+
+  <table align=center width=850px>
+		<tr>
+			<td>
+        <table align=center width=500px>
+          <thead>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black"></td>
+          		</tr>
+              <tr>
+                  <th>model</th>
+                  <th style="text-align:center">arch.</th>
+                  <th>COCO</th>
+                  <th>CoCA</th>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+          </thead>
+          <tbody>
+              <tr>
+                 <td colspan="100%"><i>initialised with different encoder features</i></td>
+              </tr>
+              <tr>
+                  <td>ReCo$^\dagger$</td>
+                  <td style="text-align:center">DeiT-S/16 & RN50x16</td>
+                  <td style="text-align:center">23.8</td>
+                  <td style="text-align:center">28.8</td>
+              </tr>
+              <tr>
+                  <td>NamedMask$^\ddagger$</td>
+                  <td style="text-align:center">RN50 & DLv3+</td>
+                  <td style="text-align:center">28.4</td>
+                  <td style="text-align:center">27.3</td>
+              </tr>
+
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+              <tr>
+                 <td colspan="100%"><i>initialised with CLIP encoder features</i></td>
+              </tr>
+              <tr>
+                  <td>MaskCLIP</td>
+                  <td style="text-align:center">ViT-B/16</td>
+                  <td style="text-align:center">20.6</td>
+                  <td style="text-align:center">20.2</td>
+              </tr>
+              <tr>
+                  <td>ZUTIS (Ours)</td>
+                  <td style="text-align:center">ViT-B/16</td>
+                  <td style="text-align:center"><b>32.8</b></td>
+                  <td style="text-align:center"><b>32.7</b></td>
+              </tr>
+              <tr>
+          			<td colspan="100%" style="border-bottom:1px solid black;"></td>
+          		</tr>
+          </tbody>
+        </table>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div style="text-align: justify">
+          Comparison to previous unsupervised semantic segmentation methods leveraging image-language pretraining on COCO
+          and CoCA in terms of mIoU (%). $^\dagger$Initialised with supervised
+          Stylised-ImageNet pretraining. $^\ddagger$Initialised with DINO.
+				</div>
+			</td>
+		</tr>
+	</table>
+
+  </br>
+
+  <table align="center" width="850px">
+    <thead>
+      <tr>
+        <td colspan="100%" style="border-bottom:1px solid black"></td>
+      </tr>
+      <tr colspan="100%">
+          <th>model</th>
+          <th>arch.</th>
+          <th># params (M)</th>
+          <th>throughput (img/s)</th>
+          <th>mIoU</th>
+          <th>S</th>
+          <th>MS</th>
+          <th>ML</th>
+          <th>L</th>
+      </tr>
+      <tr>
+        <td colspan="100%" style="border-bottom:1px solid black"></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+         <td colspan="100%"><i>unsupervised methods w/o language-image pretraining</i></td>
+      </tr>
+      <tr>
+          <td>PASS<sub>p</sub></td>
+          <td style="text-align:center">RN50</td>
+          <td style="text-align:center">25.6</td>
+          <td style="text-align:center">-</td>
+          <td style="text-align:center">6.6</td>
+          <td style="text-align:center">1.3</td>
+          <td style="text-align:center">4.6</td>
+          <td style="text-align:center">7.1</td>
+          <td style="text-align:center">8.4</td>
+      </tr>
+      <tr>
+          <td>PASS<sub>s</sub></td>
+          <td style="text-align:center">RN50</td>
+          <td style="text-align:center">25.6</td>
+          <td style="text-align:center">-</td>
+          <td style="text-align:center">11.0</td>
+          <td style="text-align:center">2.4</td>
+          <td style="text-align:center">8.3</td>
+          <td style="text-align:center">11.9</td>
+          <td style="text-align:center">13.4</td>
+      </tr>
+      <tr>
+        <td colspan="100%" style="border-bottom:1px solid black"></td>
+      </tr>
+      <tr>
+         <td colspan="100%"><i>unsupervised methods w/ language-image pretraining</i></td>
+      </tr>
+      <tr>
+          <td>ReCo$^\dagger$</td>
+          <td style="text-align:center">DeiT-S/16 & RN50x16</td>
+          <td  style="text-align:center">170.4</td>
+          <td style="text-align:center">32.3</td>
+          <td style="text-align:center">10.3</td>
+          <td style="text-align:center">6.0</td>
+          <td style="text-align:center">11.6</td>
+          <td style="text-align:center">10.2</td>
+          <td style="text-align:center">6.7</td>
+      </tr>
+      <tr>
+          <td>NamedMask$^\ddagger$</td>
+          <td style="text-align:center">RN50 & DLv3+</td>
+          <td style="text-align:center">26.6</td>
+          <td style="text-align:center"><b>125.0</b></td>
+          <td style="text-align:center">22.9</td>
+          <td style="text-align:center">5.1</td>
+          <td style="text-align:center">19.4</td>
+          <td style="text-align:center">24.4</td>
+          <td style="text-align:center">19.8</td>
+      </tr>
+      <tr>
+          <td>ZUTIS (Ours)</td>
+          <td style="text-align:center">ViT-B/32</td>
+          <td style="text-align:center">87.8</td>
+          <td style="text-align:center">76.9</td>
+          <td style="text-align:center">27.5</td>
+          <td style="text-align:center">5.6</td>
+          <td style="text-align:center">22.3</td>
+          <td style="text-align:center">28.9</td>
+          <td style="text-align:center">26.5</td>
+      </tr>
+      <tr>
+          <td>ZUTIS (Ours)</td>
+          <td style="text-align:center">ViT-B/16</td>
+          <td style="text-align:center">86.2</td>
+          <td style="text-align:center">43.5</td>
+          <td style="text-align:center"><b>37.4</b></td>
+          <td style="text-align:center"><b>10.7</b></td>
+          <td style="text-align:center"><b>32.1</b></td>
+          <td style="text-align:center"><b>40.2</b></td>
+          <td style="text-align:center"><b>33.4</b></td>
+      </tr>
+      <tr>
+        <td colspan="100%" style="border-bottom:1px solid black"></td>
+      </tr>
+
+      <tr></tr>
+
+      <tr>
+        <td colspan="100%">
+          Comparison to existing unsupervised methods on the ImageNet-S benchmark with 919 object categories in the unsupervised
+        domain adaptation setting. We also show mIoU in diverse object sizes from small (S), medium-small (MS), medium-large (ML), and large
+        (L). $^\dagger$Encoder initialised with supervised Stylised-ImageNet pretraining. $^\ddagger$Encoder initialised with unsupervised pretraining (i.e., DINO).
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+	<table align=center width=450px>
+		<center><h1>Citation</h1></center>
+		<tr>
+			<td><a href="#"><img class="layered-paper-big" style="height:175px" src="./assets/paper.png"/></a></td>
+			<td><span style="font-size:14pt">Gyungin Shin, Samuel Albanie, Weidi Xie<br></span>
+				<b>Zero-shot Unsupervised Transfer Instance Segmentation</b><br>
+				<span>CVPRW, 2023</span>
+				<span style="font-size:4pt"><a href="#"><br></a></span>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<br>
+
+	<table align=center width=600px>
+		<tr>
+			<td>
+				<div style="color:#171B21; background-color:#F5F5F5; border: 1px solid #CCCCCC;; border-radius:5px; padding:10px; font-family: menlo; font-size: 0.8em">
+					@inproceedings{shin2023zutis,</br>
+						&nbsp author = {Shin, Gyungin and Albanie, Samuel and Xie, Weidi},</br>
+						&nbsp title = {Zero-shot Unsupervised Transfer Instance Segmentation},</br>
+						&nbsp booktitle = {CVPRW},</br>
+						&nbsp year = {2023}</br>
+					}
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<hr>
+	<br>
+
+	<table align=center width=900px>
+		<tr>
+			<td width=400px>
+				<left>
+					<center><h1>Acknowledgements</h1></center>
+          This work was performed using resources provided by the Cambridge
+          Service for Data Driven Discovery (CSD3) operated by the University of
+          Cambridge Research Computing Service (www.csd3.cam.ac.uk), provided by
+          Dell EMC and Intel using Tier-2 funding from the Engineering and
+          Physical Sciences Research Council (capital grant EP/T022159/1), and
+          DiRAC funding from the Science and Technology Facilities Council
+          (www.dirac.ac.uk). GS is supported by AI Factory, Inc. in Korea.
+          GS would like to thank Zheng Fang for the enormous support.
+          SA would like to acknowledge the support of Z. Novak and N. Novak in
+          enabling his contribution. The design of this project page was
+          borrowed and modified from the template made by
+          <a href="http://web.mit.edu/phillipi/">Phillip Isola</a> and
+					<a href="http://richzhang.github.io/">Richard Zhang</a>.
+				</left>
+			</td>
+		</tr>
+	</table>
+
+<br>
+</body>
+</html>

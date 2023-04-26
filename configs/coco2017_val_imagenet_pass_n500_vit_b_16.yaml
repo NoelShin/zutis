@@ -1,0 +1,63 @@
+# base directories
+dir_ckpt: "/home/cs-shin1/zutis/ckpt"
+dir_train_dataset: [
+    "/home/cs-shin1/datasets/ImageNet2012/train",
+    "/home/cs-shin1/datasets/pass/images"
+]
+p_filename_to_image_embedding: [
+    "/home/cs-shin1/datasets/ImageNet2012/filename_to_ViT_L_14_336px_train_img_embedding.pkl",
+    "/home/cs-shin1/datasets/pass/filename_to_ViT_L_14_336px_img_embedding.pkl"
+]
+dir_val_dataset: "/home/cs-shin1/datasets/coco2017"
+n_categories: 81
+categories: [
+    "background", 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
+    'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant',
+    'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard',
+    'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle',
+    'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli',
+    'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'dining table', 'toilet',
+    'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator',
+    'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'
+]
+
+category_to_p_images_fp: "/home/cs-shin1/datasets/index_dataset/coco2017_category_to_p_images_n500.json"
+n_images: 500
+
+# dataset
+# index dataset
+index_dataset_name: "index"
+use_archive_purifier: false
+train_image_size: 384
+ignore_index: 255
+scale_range: [0.1, 1.0]
+use_advanced_copy_paste: false
+iter_label_update: 0
+random_duplicate: true
+
+# validation dataset
+dataset_name: "coco2017"
+split: "val"
+
+# dataloader:
+train_dataloader_kwargs:
+  batch_size: 8
+  num_workers: 8
+  pin_memory: true
+  shuffle: true
+  drop_last: true  # this is to prevent an error from a batch norm during training, i.e., ValueError: Expected more than 1 value per channel when training, got input size torch.Size([1, 256, 1, 1])
+
+val_dataloader_kwargs:
+  batch_size: 1
+  num_workers: 4
+  pin_memory: true
+
+# Segmenter configuration
+# ["deeplabv3plus_resnet101", "deeplabv3plus_resnet50", "deeplabv3plus_mobilenet"]
+clip_arch: "ViT-B/16"
+
+# optimiser
+n_iters: 20000
+
+iter_eval: 1000
+iter_log: 250

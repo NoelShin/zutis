@@ -1,0 +1,63 @@
+# base directories
+dir_ckpt: "/home/cs-shin1/zutis/ckpt"
+dir_train_dataset: [
+    "/home/cs-shin1/datasets/ImageNet2012/train",
+    "/home/cs-shin1/datasets/pass/images"
+]
+p_filename_to_image_embedding: [
+    "/home/cs-shin1/datasets/ImageNet2012/filename_to_ViT_L_14_336px_train_img_embedding.pkl",
+    "/home/cs-shin1/datasets/pass/filename_to_ViT_L_14_336px_img_embedding.pkl"
+]
+dir_val_dataset: "/home/cs-shin1/datasets/coca"
+
+n_categories: 81
+categories: [
+    "background", 'Accordion', 'UAV', 'Yellow duck', 'alarm clock', 'avocado', 'backpack', 'baseball', 'beer bottle',
+    'belt', 'binoculars', 'boots', 'butterfly', 'calculator', 'camel', 'camera', 'candle', 'chopsticks', 'clover',
+    'dice', 'dolphin', 'doughnut', 'dumbbell', 'eggplant', 'faucet', 'fishing rod', 'frisbee', 'gift box', 'glasses',
+    'globe', 'glove', 'guitar', 'hammer', 'hammock', 'handbag', 'harp', 'hat', 'headphone', 'helicopter', 'high heels',
+    'hourglass', 'ice cream', 'key', 'lollipop', 'macaroon', 'microphone', 'minions', 'moon', 'persimmon', 'pigeon',
+    'pillow', 'pine cone', 'pineapple', 'pocket watch', 'poker', 'potato', 'pumpkin', 'rabbit', 'rocking horse',
+    'roller-skating', 'rolling pin', 'soap bubble', 'squirrel', 'stethoscope', 'sticky note', 'stool', 'strawberry',
+    'sunflower', 'tablet', 'teddy bear', 'thermometer', 'tomato', 'towel', 'toy car', 'typewriter', 'violin', 'waffles',
+    'watering can', 'watermelon', 'wheelchair', 'whisk'
+]
+category_to_p_images_fp: "/home/cs-shin1/datasets/index_dataset/coca_category_to_p_images_n500.json"
+n_images: 500
+
+# dataset
+# index dataset
+index_dataset_name: "index"
+use_archive_purifier: false
+train_image_size: 384
+ignore_index: 255
+scale_range: [0.1, 1.0]
+use_advanced_copy_paste: false
+iter_label_update: 0
+random_duplicate: true
+
+# validation dataset
+dataset_name: "coca"
+split: "val"
+
+# dataloader:
+train_dataloader_kwargs:
+  batch_size: 8
+  num_workers: 8
+  pin_memory: true
+  shuffle: true
+  drop_last: true  # this is to prevent an error from a batch norm during training, i.e., ValueError: Expected more than 1 value per channel when training, got input size torch.Size([1, 256, 1, 1])
+
+val_dataloader_kwargs:
+  batch_size: 1
+  num_workers: 4
+  pin_memory: true
+
+# Segmenter configuration
+clip_arch: "ViT-B/16"
+
+# optimiser
+n_iters: 20000
+
+iter_eval: 1000
+iter_log: 250
