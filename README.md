@@ -16,7 +16,7 @@
 ```    
 
 Official PyTorch implementation of **Zero-shot Unsupervised Transfer Instance Segmentation**. Details can be found in the paper.
-[[`paper`](https://arxiv.org/pdf/2209.11228.pdf)] [[`project page`](https://www.robots.ox.ac.uk/~vgg/research/namedmask)]
+[[`paper`](#)] [[`project page`](#)]
 
 ![Alt Text](project_page/assets/overview.png)
 

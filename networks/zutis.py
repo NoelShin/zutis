@@ -418,7 +418,6 @@ class ZUTIS(nn.Module):
             # a max category probability for each query to be multiplied for a confidence score
             max_category_probabilities = torch.max(semantic_predictions, dim=-1).values  # b x n_queries
             confidence_scores: np.ndarray = (confidence_scores * max_category_probabilities).cpu().numpy()
-            # confidence_scores: np.ndarray = (confidence_scores).cpu().numpy()
 
             if size is not None:
                 # upsample instance masks now to run the inference efficiently
@@ -438,7 +437,6 @@ class ZUTIS(nn.Module):
                     predictions_per_image: List[dict] = list()
                     for m, s, c in zip(binary_masks_per_image, confidence_scores_per_image, category_ids_per_image):
                         if m.sum() == 0 or c == 0:
-                            print("really?")
                             continue
 
                         if new_label_id_to_old_label_id is not None:
