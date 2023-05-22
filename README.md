@@ -109,7 +109,7 @@ category_to_p_images_fp: "{your_dataset_dir}/index_dataset/{evaluation_benchmark
 You can download `filename_to_image_embedding` and `category_to_p_images` files below.
 
 **`filename_to_image_embedding`:**
-- [`CLIP` image embeddings for the ImageNet2012 training set (~4.1GB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/imagenet2012/filename_to_ViT_L_14_336px_img_embedding.pkl)
+- [`CLIP` image embeddings for the ImageNet2012 training set (~4.1GB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/imagenet2012/filename_to_ViT_L_14_336px_train_img_embedding.pkl)
 - [`CLIP` image embeddings for PASS (~4.6GB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/pass/filename_to_ViT_L_14_336px_img_embedding.pkl)
 
 Once downloaded, please put the files into the corresponding dataset directory (i.e., `ImageNet2012` and `pass` directories shown in the recommended directory structure above). Note that, in both cases, the `ViT-L/14@336px` `CLIP` image encoder is used to extract the image embeddings.
