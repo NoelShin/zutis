@@ -45,7 +45,7 @@ Note that COCO20K dataset is composed of 19,817 images from the COCO2014 train s
 Note that, we only consider object categories (and a background) for the COCO2017 dataset.
 
 #### [Optional] Index datasets
-If you want to construct image archives yourself for your custom dataset or a specific set of categories, you may want to download the following datasets to use as an index dataset (details can be found in [our paper](#)):
+If you want to construct image archives yourself for your custom dataset or a specific set of categories, you may want to download the following datasets to use as an index dataset (details can be found in [our paper](https://arxiv.org/pdf/2304.14376.pdf)):
 * [ImageNet2012](https://image-net.org/download.php)
 * [PASS](https://www.robots.ox.ac.uk/~vgg/data/pass/)
 
@@ -110,15 +110,15 @@ category_to_p_images_fp: "{your_dataset_dir}/index_dataset/{evaluation_benchmark
 You can download `filename_to_image_embedding` and `category_to_p_images` files below.
 
 **`filename_to_image_embedding`:**
-- [`CLIP` image embeddings for the ImageNet2012 training set (~4.1GB)](#https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/imagenet2012/filename_to_ViT_L_14_336px_img_embedding.pkl)
-- [`CLIP` image embeddings for PASS (~4.6GB)](#https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/pass/filename_to_ViT_L_14_336px_img_embedding.pkl)
+- [`CLIP` image embeddings for the ImageNet2012 training set (~4.1GB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/imagenet2012/filename_to_ViT_L_14_336px_train_img_embedding.pkl)
+- [`CLIP` image embeddings for PASS (~4.6GB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/pass/filename_to_ViT_L_14_336px_img_embedding.pkl)
 
 Once downloaded, please put the files into the corresponding dataset directory (i.e., `ImageNet2012` and `pass` directories shown in the recommended directory structure above). Note that, in both cases, the `ViT-L/14@336px` `CLIP` image encoder is used to extract the image embeddings.
 
 **`category_to_p_images`:**
-- [CoCA (~3.2MB)](#https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/coca_category_to_p_images_n500.json)
-- [COCO2017 (~3.2MB)](#https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/coco2017_category_to_p_images_n500.json)
-- [ImageNetS919 (~37MB)](#https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/imagenet_s919_category_to_p_images_n500.json)
+- [CoCA (~3.2MB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/coca_category_to_p_images_n500.json)
+- [COCO2017 (~3.2MB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/coco2017_category_to_p_images_n500.json)
+- [ImageNetS919 (~37MB)](https://www.robots.ox.ac.uk/~vgg/research/zutis/shared_files/index_dataset/imagenet_s919_category_to_p_images_n500.json)
 
 Please put these files in the `index_dataset` directory. In addition, you *have to* change the image paths in each file accordingly to your case.
 
