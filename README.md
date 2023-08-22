@@ -1,4 +1,4 @@
-## Zero-shot Unsupervised Transfer Instance Segmentation
+## Zero-shot Unsupervised Transfer Instance Segmentation [Best paper at [CVPR 2023 L3D-IVU workshop](https://sites.google.com/view/l3d-ivu-2023/overview?authuser=0)]
 ```
        ___           ___                                   ___     
       /  /\         /__/\          ___       ___          /  /\    
